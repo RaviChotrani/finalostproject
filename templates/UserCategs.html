@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+  </head>
+  <script type="text/javascript">
+	  function toggle_visibility(id) {
+	      var e = document.getElementById(id);
+	      if(e.style.display == 'block')
+	         e.style.display = 'none';
+	      else
+	         e.style.display = 'block';
+	   }
+  </script>	  
+  <body>
+	   <form action="/initChoice" method="post">
+	        Welcome to the live Condorcet Experiment : <b> {{ author }} !! </b>
+	       <br />
+	       <p>What would you like to do:</p>
+	       <br />
+	       <br />
+	       <input type=radio name=firstChoice value=opt1 /> Vote on Existing Category
+	       <br />
+	       <br />
+	       <input type=radio name=firstChoice value=opt2 /> Edit an Existing Category
+	       <br />
+	       <br />
+	       <input type=radio name=firstChoice value=opt3 onclick="toggle_visibility('catName');" /> Create a new Category
+		   <br />
+		   <br />
+		   <div id="catName" style="DISPLAY: block" ><textbox name=catName ></textbox> </div>
+		   <input type=hidden name=username value="{{ author }}" />
+		   <div>
+		      <button type="submit" value="Login">Submit</button>
+		      <button type="reset" value="Reset">Reset</button>
+		   </div>
+	   </form>
+    <br />
+    <br />
+    <br />
+    <a href="/">Back to Login Page</a>
+
+  </body>
+</html>

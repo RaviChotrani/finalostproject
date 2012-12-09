@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+  </head>
+  <script type="text/javascript">
+	  function toggle_visibility(id) {
+		  if (id == 'show')
+		    document.getElementById('catName').style.visibility='visible';
+		  if (id == 'hide')
+			document.getElementById('catName').style.visibility='hidden';
+	   }
+  </script>	  
+  <body>
+	   <form action="/initChoice" method="post">
+	   	 {% if categoryAdded %}
+	   	 	Your Category has been added successfully.
+	     {% else %}
+	        Welcome to the live Condorcet Experiment : <b> {{ author }} !! </b>
+	     {% endif %}      
+	       <br />
+	       <p>What would you like to do:</p>
+	       <br />
+	       <br />
+	       <input type=radio name=firstChoice value=opt1 onclick="toggle_visibility('hide');" /> Vote on Existing Category
+	       <br />
+	       <br />
+	       <input type=radio name=firstChoice value=opt2 onclick="toggle_visibility('hide');" /> Edit an Existing Category
+	       <br />
+	       <br />
+	       <input type=radio name=firstChoice value=opt3 onclick="toggle_visibility('show');" /> Create a new Category
+		   <br />
+		   <br />
+		   <div id=catName style="visibility:hidden ">Enter Category Name : <input type=text name=catName > </div>
+		   <input type=hidden name=username value="{{ author }}" />
+		   <br />
+		   <div>
+		      <button type="submit" value="Login">Submit</button>&nbsp;
+		      <button type="reset" value="Reset">Reset</button>
+		   </div>
+	   </form>
+    <br />
+    <br />
+    <br />
+    <a href="/">Back to Login Page</a>
+
+  </body>
+</html>
