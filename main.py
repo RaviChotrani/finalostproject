@@ -40,14 +40,13 @@ class Login(webapp.RequestHandler):
 class Welcome(webapp.RequestHandler):
   def post(self):
       author = self.request.get('username')
-      #self.response.headers['Content-Type'] = 'text/html'
-      #self.response.out.write("Before")
-      #self.response.out.write(author)
-      #self.response.out.write("After")    
-
+      # Small utility to clear records -- Uncomment only to clear records and then comment back
+      #q = db.GqlQuery("SELECT * FROM AllCategories")
+      #results = q.fetch(10)
+      #db.delete(results)
+      
       template_values = {
         'author': author,
-        #'categoryAdded' : "N"
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')
@@ -70,7 +69,8 @@ class FirstPage(webapp.RequestHandler):
          categsForUser = db.GqlQuery("SELECT * FROM AllCategories where author = :1", username)
          
          template_values = {
-            'categsForUser': categsForUser
+            'categsForUser': categsForUser,
+            'author' : username
          }
 
          path = os.path.join(os.path.dirname(__file__), 'templates/UserCategs.html')
@@ -78,13 +78,13 @@ class FirstPage(webapp.RequestHandler):
               
       if initChoice == "opt3":    # Create a new Category
           category = AllCategories()
-          self.response.headers['Content-Type'] = 'text/html'
+          #self.response.headers['Content-Type'] = 'text/html'
           username = self.request.get('username')
           #self.response.out.write('Hii')
           #self.response.out.write(username)
           #self.response.out.write('Hello')
           category.author = self.request.get('username')
-          category.categoryName = self.request.get('catname')
+          category.categoryName = self.request.get('catName')
           category.put()
           template_values = {
              'author': username,
@@ -94,12 +94,34 @@ class FirstPage(webapp.RequestHandler):
           path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')
           self.response.out.write(template.render(path, template_values))
           #self.redirect('/welcome')
-              
+
+class RandomItems(webapp.RequestHandler):
+  def post(self):
+      selectedCat = self.request.get('catName')
+      username = self.request.get('username')
+      self.response.headers['Content-Type'] = 'text/html'
+      self.response.out.write('Hii')
+      self.response.out.write(selectedCat)
+      self.response.out.write(username)
+      self.response.out.write('Hello')
+      
+class AllItemsForUser(webapp.RequestHandler):
+  def post(self):
+      selectedCat = self.request.get('catName')
+      username = self.request.get('username')
+      self.response.headers['Content-Type'] = 'text/html'
+      self.response.out.write('Hii')
+      self.response.out.write(selectedCat)
+      self.response.out.write(username)
+      self.response.out.write('Hello')      
+                    
 # Main Procedure for calling the appropriate class            
 application = webapp.WSGIApplication(
                                      [('/', Login),
                                       ('/welcome', Welcome),
-                                      ('/initChoice', FirstPage)],
+                                      ('/initChoice', FirstPage),
+                                      ('/randomItems', RandomItems),
+                                      ('/allItemsForUser', AllItemsForUser)],
                                      debug=True)
 
 def main():
