@@ -238,7 +238,6 @@ class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to
         'item2': item2,
         'selectedCat': selectedCat,
         'author': username
-        
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/VotePage.html')
