@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+  </head>
+  <body>
+	   <form action="/newAddedItem" method="post">
+  	   	  <p>Following Items are existing in the category : {{ selectedCat }}. </p>	
+	   		<ul>
+	   		{% for items in itemsForUser %}
+	        	 <li> {{ items.itemName }} </li> 
+	        	 <br />
+    		{% endfor %}
+    		</ul>
+    		<hr>
+    	  <div id=itemName >Add new Item here : <input type=text name=itemName > </div>
+    	  <br />
+    	  <input type=hidden name=catName value="{{ selectedCat }}" />
+    	  <input type=hidden name=username value="{{ author }}" />
+    	  <br />
+	       <div>
+		      <button type="submit" value="Login">Submit</button>
+		      <button type="reset" value="Reset">Reset</button>
+		   </div>
+	   </form>
+    <br />
+    <br />
+    <br />
+    <a href="/">Back to Login Page</a>
+
+  </body>
+</html>

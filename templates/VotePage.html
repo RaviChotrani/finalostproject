@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+  </head>
+  <body>
+	   <form action="/newAddedVote" method="post">
+	       {% if vote_cast %}
+	       		You Voted on {{ selectedItem }}
+	     	 	<hr>
+	     	 	<hr>	
+	       {% endif %}	      
+	       <br />	
+	       <p>Please vote on one of the Items Below:</p>
+	       <br />
+	       <br />
+	       <input type=radio name=selectedItem value="{{ item1 }}" /> {{ item1 }}
+	       <br />
+	       <br />
+	       <input type=radio name=selectedItem value="{{ item2 }}" /> {{ item2 }}
+	       <br />
+	       <br />
+		   <input type=hidden name=username value="{{ author }}" />
+		   <input type=hidden name=selectedCat value="{{ selectedCat }}" />
+		   <input type=hidden name=item1 value="{{ item1 }}" />
+		   <input type=hidden name=item2 value="{{ item2 }}" />
+		   <br />
+		   <div>
+		      <button type="submit" value="Login">Submit</button>&nbsp;
+		      <button type="reset" value="Reset">Reset</button>
+		   </div>
+	   </form>
+    <br />
+    <br />
+    <br />
+    <a href="/">Back to Login Page</a>
+
+  </body>
+</html>
