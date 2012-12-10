@@ -3,7 +3,11 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
-	   <form action="/randomItems" method="post">
+  		{% if opt4 %}
+	   		<form action="/resultsPage" method="post">
+	     {% else %}
+	     	<form action="/randomItems" method="post">
+	     {% endif %}
   	   	  <p>Please select one of the following categories:</p>	
 	   		{% for eachCategory in allCategories %}
 	        	<input type=radio name=catName value="{{ eachCategory.categoryName }}" /> {{ eachCategory.categoryName }} (Owned By : {{ eachCategory.author }})

@@ -23,6 +23,15 @@ class AllVotes(db.Model):
   winner = db.StringProperty()
   loser = db.StringProperty()
 
+class AllResults(db.Model):
+  categoryName = db.StringProperty()
+  author = db.StringProperty()
+  itemName = db.StringProperty()
+  winCount = db.IntegerProperty()
+  lossCount = db.IntegerProperty()
+  percentWin = db.IntegerProperty()
+  
+  
 # Use this for Unit Testing
       #self.response.headers['Content-Type'] = 'text/html'
       #self.response.out.write('Hii')
@@ -46,10 +55,22 @@ class Login(webapp.RequestHandler):
 class Welcome(webapp.RequestHandler):
   def post(self):
       author = self.request.get('username')
-      # Small utility to clear records -- Uncomment only to clear records and then comment back
-      #q = db.GqlQuery("SELECT * FROM AllItems")
-      #results = q.fetch(10)
-      #db.delete(results)
+      '''
+      Small utility to clear records -- Uncomment only to clear records and then comment back
+      q1 = db.GqlQuery("SELECT * FROM AllCategories")
+      results1 = q1.fetch(10)
+      db.delete(results1)
+      q2 = db.GqlQuery("SELECT * FROM AllItems")
+      results2 = q2.fetch(10)
+      db.delete(results2)
+      q3 = db.GqlQuery("SELECT * FROM AllVotes")
+      results3 = q3.fetch(10)
+      db.delete(results3)
+      '''
+      # Deleting all Records of AllResults to avoid multiple record entries
+      q4 = db.GqlQuery("SELECT * FROM AllResults")
+      results4 = q4.fetch(1000)
+      db.delete(results4)
       
       template_values = {
         'author': author,
@@ -99,8 +120,17 @@ class FirstPage(webapp.RequestHandler):
 
           path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')
           self.response.out.write(template.render(path, template_values))
-          #self.redirect('/welcome')
+          
+      if initChoice == "opt4":    # View Results
+          allCategories = db.GqlQuery("SELECT * FROM AllCategories")
+          template_values = {
+            'allCategories': allCategories,
+            'opt4': "Y"
+          }
 
+          path = os.path.join(os.path.dirname(__file__), 'templates/AllCategs.html')
+          self.response.out.write(template.render(path, template_values))
+              
 class RandomItems(webapp.RequestHandler):
   def post(self):
       selectedCat = self.request.get('catName')
@@ -242,7 +272,55 @@ class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to
 
       path = os.path.join(os.path.dirname(__file__), 'templates/VotePage.html')
       self.response.out.write(template.render(path, template_values))     
-                         
+
+class ResultsPage(webapp.RequestHandler):  #View Results on a given category
+  def post(self):
+      categoryName = self.request.get('catName')
+      username = self.request.get('username')
+      
+      itemsofCateg = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", categoryName, username)
+      votesofCateg = db.GqlQuery("SELECT * FROM AllVotes WHERE categoryName = :1 AND author = :2", categoryName, username)
+      
+      for itemCat in itemsofCateg:
+          item = itemCat.itemName
+          winCount = 0
+          lossCount = 0
+          percent = 0
+          for voteCat in votesofCateg:
+              winner = voteCat.winner
+              loser = voteCat.loser
+              if item == winner:
+                  winCount+= 1
+              if item == loser:
+                  lossCount+= 1
+                      
+          if winCount == 0 and lossCount == 0:
+              percent = 0
+          else:
+              sum = winCount + lossCount
+              div = float(winCount)/sum
+              percent = div * 100
+                  
+          newResult = AllResults()
+          newResult.categoryName = categoryName
+          newResult.author = username
+          newResult.itemName = item
+          newResult.winCount = winCount
+          newResult.lossCount = lossCount
+          newResult.percentWin = int(percent)
+          newResult.put()
+                      
+      allResults = db.GqlQuery("SELECT * FROM AllResults WHERE categoryName = :1 AND author = :2 ORDER BY percentWin DESC ", categoryName, username)
+      
+      template_values = {
+        'allResults': allResults,
+        'categoryName': categoryName,
+        'author': username
+      }
+
+      path = os.path.join(os.path.dirname(__file__), 'templates/ResultsPage.html')
+      self.response.out.write(template.render(path, template_values))
+           
 # Main Procedure for calling the appropriate class            
 application = webapp.WSGIApplication(
                                      [('/', Login),
@@ -251,7 +329,8 @@ application = webapp.WSGIApplication(
                                       ('/randomItems', RandomItems),
                                       ('/allItemsForUser', AllItemsForUser),
                                       ('/newAddedItem', NewAddedItem),
-                                      ('/newAddedVote', NewAddedVote)],
+                                      ('/newAddedVote', NewAddedVote),
+                                      ('/resultsPage', ResultsPage)],
                                      debug=True)
 
 def main():
