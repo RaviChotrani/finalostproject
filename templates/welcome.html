@@ -15,7 +15,7 @@
 	   	 {% if categoryAdded %}
 	   	 	Your Category has been added successfully.
 	     {% else %}
-	        Welcome to the live Condorcet Experiment : <b> {{ author }} !! </b>
+	        Welcome to the live Condorcet Experiment : <b> {{ loggedInUser }} !! </b>
 	     {% endif %}      
 	       <br />
 	       <p>What would you like to do:</p>
@@ -24,7 +24,10 @@
 	       <input type=radio name=firstChoice value=opt1 onclick="toggle_visibility('hide');" /> Vote on Existing Category
 	       <br />
 	       <br />
-	       <input type=radio name=firstChoice value=opt2 onclick="toggle_visibility('hide');" /> Edit an Existing Category
+	       <input type=radio name=firstChoice value=opt2 onclick="toggle_visibility('hide');" /> Add Items to an Existing Category
+	       <br />
+	       <br />
+	       <input type=radio name=firstChoice value=opt5 onclick="toggle_visibility('hide');" /> Export Items of an Existing Category
 	       <br />
 	       <br />
 	       <input type=radio name=firstChoice value=opt4 onclick="toggle_visibility('hide');" /> View Results of any Existing Category
@@ -34,7 +37,7 @@
 		   <br />
 		   <br />
 		   <div id=catName style="visibility:hidden ">Enter Category Name : <input type=text name=catName > </div>
-		   <input type=hidden name=username value="{{ author }}" />
+		   <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
 		   <br />
 		   <br />
 		   <div>

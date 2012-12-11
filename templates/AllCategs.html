@@ -3,8 +3,14 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
+  		Logged In User : <b> {{ loggedInUser }} !! </b>
+  		<br />
+  		<br />
   		{% if opt4 %}
 	   		<form action="/resultsPage" method="post">
+	   	{% endif %}	
+	   	{% if opt5 %}
+	   		<form action="/exportXML" method="post">
 	     {% else %}
 	     	<form action="/randomItems" method="post">
 	     {% endif %}
@@ -15,6 +21,7 @@
 		        <input type=hidden name=username value="{{ eachCategory.author }}" />
 		        <br />
     		{% endfor %}
+    		<input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
 	       <div>
 		      <button type="submit" value="Login">Submit</button>
 		      <button type="reset" value="Reset">Reset</button>

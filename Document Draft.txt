@@ -1,0 +1,8 @@
+
+
+
+Following advanced features are implemented in the project:
+
+1. Support user comments about an item.  A user should not be able to comment on an item more than once.  The comments should be shown in the results view by each item.
+
+---> When a user selects a category to vote on. Along with an option to vote, user is given an option to insert comments(if any). In next cycle, if same item comes up for the user, user's previous comments are shown along with the item.
