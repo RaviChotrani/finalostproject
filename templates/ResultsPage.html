@@ -3,20 +3,43 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
+  		Logged In User : <b> {{ loggedInUser }} !! </b>
+  		<br />
+  		<br />
+  		<br />
  		<p> Category Owned By : <b>{{ author }} </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Selected Category : <b>{{ categoryName }} </b></p> 
    		<table border="1">
    			<tr>
         	   <td><b>ItemName </b></td>
         	   <td><b>WinCount </b></td>
         	   <td><b>LossCount </b></td>
-        	   <td><b>Winning Percent </b></td>	        	    
-        	 </tr>
+        	   <td><b>Winning Percent </b></td>
+        	   <td><b>User Comments </b></td>
+        	</tr>
    		{% for result in allResults %}
    			 <tr>
         	   <td>{{ result.itemName }} </td>
         	   <td>{{ result.winCount }} </td>
         	   <td>{{ result.lossCount }} </td>
-        	   <td>{{ result.percentWin }} </td>	        	    
+        	   <td>{{ result.percentWin }} </td>
+        	   <td>
+        	   		<table>
+        	   			<tr>
+        	   			   <td>
+        	   			   		{% for eachUser in result.userList %}
+			        	   			{{ eachUser }} says : 
+			        	   			<br />
+			        			{% endfor %}
+        	   			   </td>
+        	   			   <td>
+			        	   		{% for eachComment in result.userComment %}
+			        	   			{{ eachComment }}
+			        	   			<br />
+			        			{% endfor %}	   			
+        	   			   </td>
+        	   			</tr>
+        	   		</table>
+        	   </td>	        	    
         	 </tr>
    		{% endfor %}
    		</table>

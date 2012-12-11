@@ -3,6 +3,10 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
+  	   Logged In User : <b> {{ loggedInUser }} !! </b>
+  	   <br />
+  	   	<br />
+  	   	<br />
 	   <form action="/allItemsForUser" method="post">
   	   	  <p>Categories Owned by you are as follows. Please choose one to edit:</p>	
 	   		{% for category in categsForUser %}

@@ -5,9 +5,11 @@
 		  function load(previousComment1,previousComment2) {
 			  if ((previousComment1 != null) && (previousComment1 != '')) {
 			    document.getElementById('previousComment1').disabled = true;
+			    document.getElementById('appendComment1').Value = "F"
 			  }  
 			  if ((previousComment2 != null) && (previousComment2 != '')) {
 				  document.getElementById('previousComment2').disabled = true;
+				  document.getElementById('appendComment2').Value = "F"
 			  }
 		   }
 	  </script>
@@ -58,6 +60,8 @@
 		   <input type=hidden name=selectedCat value="{{ selectedCat }}" />
 		   <input type=hidden name=item1 value="{{ item1 }}" />
 		   <input type=hidden name=item2 value="{{ item2 }}" />
+		   <input id="appendComment1" type=hidden name=appendComment1 value="T" />
+		   <input id="appendComment2" type=hidden name=appendComment2 value="T" />
 		   <br />
 		   <div>
 		      <button type="submit" value="Login">Submit</button>&nbsp;
