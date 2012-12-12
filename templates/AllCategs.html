@@ -1,22 +1,45 @@
 <html>
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+    <script type="text/javascript">
+	    function validate()
+		  {
+		    var retval = false;
+		    for (var i=0; i < document.allCategsForm.r.length; i++)
+		    {
+		      if (document.allCategsForm.r[i].checked)
+		      {
+		        retval = true;
+		        return retval;
+		      }
+		    }  
+			alert('Select one of the options in order to proceed')
+		    return retval;
+		  }
+    </script>
   </head>
   <body>
+  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <br />
+  	   <br />
   		Logged In User : <b> {{ loggedInUser }} !! </b>
   		<br />
   		<br />
   		{% if opt4 %}
-	   		<form action="/resultsPage" method="post">
+	   		<form name="allCategsForm" action="/resultsPage" onsubmit="return validate()" method="post">
 	   	{% endif %}	
 	   	{% if opt5 %}
-	   		<form action="/exportXML" method="post">
+	   		<form name="allCategsForm" action="/exportXML" onsubmit="return validate()" method="post">
 	     {% else %}
-	     	<form action="/randomItems" method="post">
+	     	<form name="allCategsForm" action="/randomItems" onsubmit="return validate()" method="post">
 	     {% endif %}
-  	   	  <p>Please select one of the following categories:</p>	
+	     {% if error_msg %}
+	     	<h4>The selected category has less than 2 Items.</h4>
+	     {% endif %}		
+  	   	  <p>Please select one of the following categories:</p>
+  	   	    <input type=hidden id="r" />	
 	   		{% for eachCategory in allCategories %}
-	        	<input type=radio name=catName value="{{ eachCategory.categoryName }}" /> {{ eachCategory.categoryName }} (Owned By : {{ eachCategory.author }})
+	        	<input type=radio id="r" name=catName value="{{ eachCategory.categoryName }}" /> {{ eachCategory.categoryName }} (Owned By : {{ eachCategory.author }})
 		        <br />
 		        <input type=hidden name=username value="{{ eachCategory.author }}" />
 		        <br />
@@ -30,7 +53,6 @@
     <br />
     <br />
     <br />
-    <a href="/">Back to Login Page</a>
-
+    <a  href="/welcomeBack">Back to Welcome Page</a>
   </body>
 </html>

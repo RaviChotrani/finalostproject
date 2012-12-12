@@ -63,6 +63,29 @@ class Welcome(webapp.RequestHandler):
       results4 = q4.fetch(1000)
       db.delete(results4)
       
+      q6 = db.GqlQuery("SELECT * FROM Loggeduser")
+      results6 = q6.fetch(100)
+      db.delete(results6)
+      
+      loggeduser = Loggeduser()
+      loggeduser.loggedInUser = loggedInUser
+      loggeduser.put()
+      
+      template_values = {
+        'loggedInUser': loggedInUser,
+      }
+
+      path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')
+      self.response.out.write(template.render(path, template_values))
+
+class WelcomeBack(webapp.RequestHandler):
+  def get(self):
+      
+      loggedInUser = ""
+      loggeduser = db.GqlQuery("SELECT * FROM Loggeduser")
+      for user in loggeduser:
+          loggedInUser = user.loggedInUser
+          
       template_values = {
         'loggedInUser': loggedInUser,
       }
@@ -74,6 +97,7 @@ class Welcome(webapp.RequestHandler):
 application = webapp.WSGIApplication(
                                      [('/', Login),
                                       ('/welcome', Welcome),
+                                      ('/welcomeBack', WelcomeBack),
                                       ('/initChoice', FirstPage),
                                       ('/randomItems', RandomItems),
                                       ('/allItemsForUser', AllItemsForUser),

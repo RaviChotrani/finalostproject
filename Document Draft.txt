@@ -1,8 +1,21 @@
+Editing a Category only supports Addition of Items to the category. Deletion or even changing of item names is an advanced feature and is not implemented in this project.
 
+Two categories of same name are not allowed to be created.
+However same category names can exist by different users.
+Two items of same name are not allowed within a category.
 
+Select Vote on Existing Category page or View Results of Existing Category to view all the categories present.
+
+Select Add Item to Existing Category page to view all items present for a category.
 
 Following advanced features are implemented in the project:
 
 1. Support user comments about an item.  A user should not be able to comment on an item more than once.  The comments should be shown in the results view by each item.
 
 ---> When a user selects a category to vote on. Along with an option to vote, user is given an option to insert comments(if any). In next cycle, if same item comes up for the user, user's previous comments are shown but are uneditable.The results are displayed for each user who has commented on that item.
+
+
+2. Search capability to find items and categories that match supplied keywords.  For example a search for "Apple" could match "Apple MacBook" in the category "Laptops" as well as "Apple" in the category "Fruits".
+
+---> This search searches for all Item names containing the search keyword. If not found, the search engine will search for any matching category names containing the search keyword. The search is case-sensitive.
+

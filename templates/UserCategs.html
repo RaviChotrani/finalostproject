@@ -1,20 +1,40 @@
 <html>
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+    <script type="text/javascript">
+	    function validate()
+		  {
+		    var retval = false;
+		    for (var i=0; i < document.userCategsForm.r.length; i++)
+		    {
+		      if (document.userCategsForm.r[i].checked)
+		      {
+		        retval = true;
+		        return retval;
+		      }
+		    }  
+			alert('Select one of the options in order to proceed')
+		    return retval;
+		  }
+    </script>
   </head>
   <body>
+  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <br />
+  	   <br />	
   	   Logged In User : <b> {{ loggedInUser }} !! </b>
   	   <br />
   	   	<br />
   	   	<br />
-	   <form action="/allItemsForUser" method="post">
+	   <form name="userCategsForm" action="/allItemsForUser" onsubmit="return validate()" method="post">
   	   	  <p>Categories Owned by you are as follows. Please choose one to edit:</p>	
 	   		{% for category in categsForUser %}
-	        	<input type=radio name=catName value="{{ category.categoryName }}" /> {{ category.categoryName }}
+	        	<input type=radio id="r" name=catName value="{{ category.categoryName }}" /> {{ category.categoryName }}
 		        <br />
 		        <br />
     		{% endfor %}
 		        <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
+		        <input type=hidden id="r" />
 		        <br />
 	       <div>
 		      <button type="submit" value="Login">Submit</button>
@@ -24,7 +44,7 @@
     <br />
     <br />
     <br />
-    <a href="/">Back to Login Page</a>
+    <a  href="/welcomeBack">Back to Welcome Page</a>
 
   </body>
 </html>

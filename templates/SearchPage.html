@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+  </head>
+  <body>
+  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <br />
+  	   <br />
+  	   Logged In User : <b> {{ loggedInUser }} !! </b>
+  	      <br />
+  	      <br />	
+  	   	  <p><b>{{ count }} </b> Result(s) found on searching for : <b>{{ searchElement }} </b> </p>	
+	   		<ul>
+	   		{% for eachResult in resultListFound %}
+	        	 <li> {{ eachResult }} </li> 
+	        	 <br />
+    		{% endfor %}
+    		</ul>
+    		<hr>
+    	  <br />
+    	  <br />
+    	<a  href="/welcomeBack">Back to Welcome Page</a>
+
+  </body>
+</html>

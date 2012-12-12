@@ -30,3 +30,7 @@ class AllComments(db.Model):
   categoryName = db.StringProperty()
   itemName = db.StringProperty()
   itemComment = db.StringProperty()
+  
+class Loggeduser(db.Model):
+  loggedInUser = db.StringProperty()
+  

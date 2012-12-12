@@ -20,10 +20,10 @@ class ResultsPage(webapp.RequestHandler):  #View Results on a given category
       itemsofCateg = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", categoryName, username)
       votesofCateg = db.GqlQuery("SELECT * FROM AllVotes WHERE categoryName = :1 AND author = :2", categoryName, username)
       
-      userList = []
-      userComment = []
       for itemCat in itemsofCateg:
           item = itemCat.itemName
+          userList = []
+          userComment = []
           allComments = db.GqlQuery("SELECT * FROM AllComments WHERE categoryName = :1 AND itemName = :2", categoryName, item)
           for comment in allComments:
               userList.append(comment.loggedInUser)
@@ -69,3 +69,4 @@ class ResultsPage(webapp.RequestHandler):  #View Results on a given category
 
       path = os.path.join(os.path.dirname(__file__), 'templates/ResultsPage.html')
       self.response.out.write(template.render(path, template_values))
+      

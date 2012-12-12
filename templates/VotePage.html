@@ -12,14 +12,32 @@
 				  document.getElementById('appendComment2').Value = "F"
 			  }
 		   }
+		  
+		  function validate()
+		  {
+		    var retval = false;
+		    for (var i=0; i < document.voteForm.r.length; i++)
+		    {
+		      if (document.voteForm.r[i].checked)
+		      {
+		        retval = true;
+		        return retval;
+		      }
+		    }  
+			alert('Select one of the options in order to proceed')
+		    return retval;
+		  }
 	  </script>
   </head>
   <body onload="load('{{ previousComment1 }}','{{ previousComment2 }}')">
+  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <br />
+  	   <br />	
   	   Logged In User : <b> {{ loggedInUser }} !! </b>
   	   <br />
   	   <br />
   	   <br />	
-	   <form action="/newAddedVote" method="post">
+	   <form name="voteForm" action="/newAddedVote" onsubmit="return validate()" method="post">
 	       {% if vote_cast %}
 	       		You Voted on {{ selectedItem }}
 	     	 	<hr>
@@ -35,10 +53,10 @@
 	       			Item Name:
 	       	   </td>
 	       	   <td>
-	       			<input type=radio name=selectedItem value="{{ item1 }}" /> {{ item1 }}
+	       			<input id="r" type=radio name=selectedItem value="{{ item1 }}" /> {{ item1 }}
 	       	   </td>
 	       	   <td>
-			       <input type=radio name=selectedItem value="{{ item2 }}" /> {{ item2 }}
+			       <input id="r" type=radio name=selectedItem value="{{ item2 }}" /> {{ item2 }}
 	       	   </td>
 	       	 </tr>
 	       	 <tr>
@@ -52,9 +70,32 @@
 	       	   	  <textarea id="previousComment2" name="previousComment2" rows="3" cols="60">{{ previousComment2 }}</textarea>	
 	       	   </td>
 	       	 </tr>
+	       	 <tr>
+	       	 </tr>
+	       	 <tr>
+	       	 </tr>
+	       	 <tr>
+	       	 </tr>
+	       	 <tr>
+	       	 </tr>
+	       	 <tr>
+	       	 </tr>
+	       	 <tr>
+	       	 </tr>
+	       	 <tr>
+	       	 	<td>
+	       	    </td>
+	       	 	<td>
+			      <p align="center"><button type="submit" value="Login">Submit</button>&nbsp;</p>
+	       	   </td>
+	       	   <td>
+			      <p align="left"><button type="reset" value="Reset">Reset</button></p>
+	       	   </td>
+	       	 </tr>
 	       </table>
 	       <br />
 	       <br />
+	       <input type=hidden id="r" />
 	       <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
 		   <input type=hidden name=username value="{{ author }}" />
 		   <input type=hidden name=selectedCat value="{{ selectedCat }}" />
@@ -63,15 +104,8 @@
 		   <input id="appendComment1" type=hidden name=appendComment1 value="T" />
 		   <input id="appendComment2" type=hidden name=appendComment2 value="T" />
 		   <br />
-		   <div>
-		      <button type="submit" value="Login">Submit</button>&nbsp;
-		      <button type="reset" value="Reset">Reset</button>
-		   </div>
 	   </form>
-    <br />
-    <br />
-    <br />
-    <a href="/">Back to Login Page</a>
+    <a  href="/welcomeBack">Back to Welcome Page</a>
 
   </body>
 </html>

@@ -1,19 +1,58 @@
 <html>
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-  </head>
   <script type="text/javascript">
-	  function toggle_visibility(id) {
-		  if (id == 'show')
-		    document.getElementById('catName').style.visibility='visible';
-		  if (id == 'hide')
-			document.getElementById('catName').style.visibility='hidden';
+	  function toggle_visibility(id1,id2) {
+		  if ((id1 == 'show') && (id2 == 'hide')) {
+		    document.getElementById('searchElement').style.visibility='visible';
+		    document.getElementById('catName').style.visibility='hidden';
+		  }  
+		  else if ((id1 == 'hide') && (id2 == 'show')) {
+			document.getElementById('searchElement').style.visibility='hidden';  
+			document.getElementById('catName').style.visibility='visible';
+		  }
+		  else {
+			  document.getElementById('searchElement').style.visibility='hidden';
+			  document.getElementById('catName').style.visibility='hidden';
+		  }
 	   }
+	  
+	  function validate()
+	  {
+	    var retval = false;
+	    var x=document.forms["welcomeForm"]["searchElement"].value;
+	    var y=document.forms["welcomeForm"]["catName"].value;
+	    for (var i=0; i < document.welcomeForm.r.length; i++)
+	    {
+	      if (document.welcomeForm.r[i].checked)
+	      {
+	         if( (document.welcomeForm.r[i].value == 'opt6') && ((x==null || x=="")) ) {
+	        	 retval = false;
+	        	 alert('Search Field cannot be empty')
+	        	 return retval;
+	         }
+	         else if( (document.welcomeForm.r[i].value == 'opt3') && ((y==null || y=="")) ) {
+	        	 retval = false;
+	        	 alert('Category Name cannot be empty')
+	        	 return retval;
+	         }
+	    	  retval = true;
+	          return retval;
+	      }
+	    }  
+		alert('Select one of the options in order to proceed')
+	    return retval;
+	  }
   </script>	  
+  </head>
   <body>
-	   <form action="/initChoice" method="post">
+  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <br />
+  	   <br />	
+	   <form name="welcomeForm" action="/initChoice" onsubmit="return validate()" method="post">
 	   	 {% if categoryAdded %}
-	   	 	Your Category has been added successfully.
+	   	 	<h3>Your Category has been added successfully.</h3>
+	   	 	<p>Note: If this Category already exists, then uniqueness will be maintained.</p>
 	     {% else %}
 	        Welcome to the live Condorcet Experiment : <b> {{ loggedInUser }} !! </b>
 	     {% endif %}      
@@ -21,34 +60,77 @@
 	       <p>What would you like to do:</p>
 	       <br />
 	       <br />
-	       <input type=radio name=firstChoice value=opt1 onclick="toggle_visibility('hide');" /> Vote on Existing Category
+	       <table>
+	       	<tr>
+	       		<td width="300">
+			       <input type=radio id="r" name=firstChoice value=opt1 onclick="toggle_visibility('hide','hide');" /> Vote on Existing Category
+	       		</td>
+	       		<td>
+			       <input type=radio id="r" name=firstChoice value=opt6 onclick="toggle_visibility('show','hide');" /> Search Item / Category
+	       		</td>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       		<td width="300">
+			       <input type=radio id="r" name=firstChoice value=opt2 onclick="toggle_visibility('hide','hide');" /> Add Items to an Existing Category
+	       		</td>
+	       		<td>
+			       <div id=searchElement style="visibility:hidden ">Enter Element to be searched : <input type=text name=searchElement > </div>
+	       		</td>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       		<td width="300">
+			       <input type=radio id="r" name=firstChoice value=opt5 onclick="toggle_visibility('hide','hide');" /> Export Items of an Existing Category
+	       		</td>
+	       		<td>
+				   <input type=radio id="r" name=firstChoice value=opt3 onclick="toggle_visibility('hide','show');" /> Create a new Category
+	       		</td>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       		<td width="300">
+			       <input type=radio id="r" name=firstChoice value=opt4 onclick="toggle_visibility('hide','hide');" /> View Results of any Existing Category
+	       		</td>
+	       		<td>
+				   <div id=catName style="visibility:hidden ">Enter Category Name : <input type=text name=catName > </div>
+	       		</td>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       		<td align="center" width="300">
+		      		<button type="submit" value="Login">Submit</button>&nbsp;
+	       		</td>
+	       		<td align="left" width="300">
+				    <button type="reset" value="Reset">Reset</button>
+	       		</td>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       	<tr>
+	       	</tr>
+	       </table>
 	       <br />
 	       <br />
-	       <input type=radio name=firstChoice value=opt2 onclick="toggle_visibility('hide');" /> Add Items to an Existing Category
 	       <br />
-	       <br />
-	       <input type=radio name=firstChoice value=opt5 onclick="toggle_visibility('hide');" /> Export Items of an Existing Category
-	       <br />
-	       <br />
-	       <input type=radio name=firstChoice value=opt4 onclick="toggle_visibility('hide');" /> View Results of any Existing Category
-		   <br />
-		   <br />
-		   <input type=radio name=firstChoice value=opt3 onclick="toggle_visibility('show');" /> Create a new Category
-		   <br />
-		   <br />
-		   <div id=catName style="visibility:hidden ">Enter Category Name : <input type=text name=catName > </div>
+		   <hr>
 		   <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
 		   <br />
 		   <br />
-		   <div>
-		      <button type="submit" value="Login">Submit</button>&nbsp;
-		      <button type="reset" value="Reset">Reset</button>
-		   </div>
 	   </form>
-    <br />
-    <br />
-    <br />
-    <a href="/">Back to Login Page</a>
+    
 
   </body>
 </html>

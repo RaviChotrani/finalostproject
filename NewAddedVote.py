@@ -65,8 +65,8 @@ class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to
       if count < 2:
           error_msg = "Y"
       elif count == 2:
-          i = 1
-          j = 2
+          i = 0
+          j = 1
       else:        
           i = random.randint(0, count-1)
           j = random.randint(0, count-1)

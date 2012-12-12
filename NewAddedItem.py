@@ -15,12 +15,21 @@ class NewAddedItem(webapp.RequestHandler):  #To show added item and option to ad
   def post(self):
       selectedCat = self.request.get('catName')
       loggedInUser = self.request.get('loggedInUser')
+      itemName = self.request.get('itemName')
       
-      newItem = AllItems()
-      newItem.categoryName = self.request.get('catName')
-      newItem.author = self.request.get('loggedInUser')
-      newItem.itemName = self.request.get('itemName')
-      newItem.put()
+      itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, loggedInUser)
+      isItemPresent = "F"
+      for itemInfo in itemsForUser:
+         if itemName == itemInfo.itemName:
+            isItemPresent = "T"
+            break
+               
+      if isItemPresent == "F":     
+          newItem = AllItems()
+          newItem.categoryName = selectedCat
+          newItem.author = loggedInUser
+          newItem.itemName = itemName
+          newItem.put()
       
       itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", 
                                  selectedCat, loggedInUser)

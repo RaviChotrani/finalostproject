@@ -36,15 +36,21 @@ class FirstPage(webapp.RequestHandler):
          self.response.out.write(template.render(path, template_values))
               
       if initChoice == "opt3":    # Create a new Category
-          category = AllCategories()
-          #self.response.headers['Content-Type'] = 'text/html'
           loggedInUser = self.request.get('loggedInUser')
-          #self.response.out.write('Hii')
-          #self.response.out.write(username)
-          #self.response.out.write('Hello')
-          category.author = self.request.get('loggedInUser')
-          category.categoryName = self.request.get('catName')
-          category.put()
+          categoryName = self.request.get('catName')
+          allCategories = db.GqlQuery("SELECT * FROM AllCategories where author = :1", loggedInUser)
+          isCatPresent = "F"
+          for categ in allCategories:
+              if categoryName == categ.categoryName:
+                   isCatPresent = "T"
+                   break
+               
+          if isCatPresent == "F":     
+              category = AllCategories()
+              category.author = loggedInUser
+              category.categoryName = categoryName
+              category.put()
+              
           template_values = {
              'categoryAdded' : "Y",
              'loggedInUser' : loggedInUser
@@ -74,4 +80,34 @@ class FirstPage(webapp.RequestHandler):
 
           path = os.path.join(os.path.dirname(__file__), 'templates/AllCategs.html')
           self.response.out.write(template.render(path, template_values))
+          
+      if initChoice == "opt6":    # Search Item / Category
+          loggedInUser = self.request.get('loggedInUser')
+          searchElement = self.request.get('searchElement')
+          resultListFound = []
+          count = 0
+          allItems = db.GqlQuery("SELECT * FROM AllItems")
+          for eachItem in allItems:
+              resultStr = ""
+              if searchElement in eachItem.itemName:
+                 resultStr = "Matching Item name: "+ eachItem.itemName+" found in "+eachItem.categoryName+" owned by "+eachItem.author
+                 resultListFound.append(resultStr)
+                 count += 1
+              else:
+                  if searchElement in eachItem.categoryName:
+                      resultStr = "Matching Category name: "+eachItem.categoryName+" owned by "+eachItem.author
+                      resultListFound.append(resultStr)
+                      count += 1
+
+           
+          
+          template_values = {
+             'loggedInUser' : loggedInUser,
+             'resultListFound' : resultListFound,
+             'searchElement': searchElement,
+             'count': count
+          }
+
+          path = os.path.join(os.path.dirname(__file__), 'templates/SearchPage.html')
+          self.response.out.write(template.render(path, template_values))       
  
