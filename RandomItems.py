@@ -14,6 +14,7 @@ from Models import *
 class RandomItems(webapp.RequestHandler):
   def post(self):
       loggedInUser = self.request.get('loggedInUser')
+      logout = self.request.get('logout')
       selectedCat = self.request.get('catName')
       username = self.request.get('username')
       itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, username)
@@ -25,7 +26,8 @@ class RandomItems(webapp.RequestHandler):
           template_values = {
             'allCategories': allCategories,
             'loggedInUser': loggedInUser,
-            'error_msg': error_msg
+            'error_msg': error_msg,
+            'logout': logout
           }
 
           path = os.path.join(os.path.dirname(__file__), 'templates/AllCategs.html')
@@ -71,7 +73,8 @@ class RandomItems(webapp.RequestHandler):
             'previousComment2': previousComment2,
             'loggedInUser': loggedInUser,
             'selectedCat': selectedCat,
-            'author': username
+            'author': username,
+            'logout': logout
             
           }
     

@@ -3,7 +3,7 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
-  		<p align="left"><a href="/">Logout</a> </p>
+  		<p align="left"><a href="{{ logout }}">Logout</a> </p>
   	    <br />
   	    <br />
   		Logged In User : <b> {{ loggedInUser }} !! </b>
@@ -48,6 +48,7 @@
    		</table>
    		<hr>
     	<br />
+    	<input type=hidden name=logout value="{{ logout }}" />
     	<br />
     	<br />
     	<a  href="/welcomeBack">Back to Welcome Page</a>

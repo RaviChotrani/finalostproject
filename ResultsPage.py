@@ -14,6 +14,7 @@ from Models import *
 class ResultsPage(webapp.RequestHandler):  #View Results on a given category
   def post(self):
       loggedInUser = self.request.get('loggedInUser')
+      logout = self.request.get('logout')
       categoryName = self.request.get('catName')
       username = self.request.get('username')
       
@@ -64,7 +65,8 @@ class ResultsPage(webapp.RequestHandler):  #View Results on a given category
         'loggedInUser': loggedInUser,                 
         'allResults': allResults,
         'categoryName': categoryName,
-        'author': username
+        'author': username,
+        'logout': logout
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/ResultsPage.html')

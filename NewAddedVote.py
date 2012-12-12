@@ -14,6 +14,7 @@ from Models import *
 class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to vote again on same category
   def post(self):
       loggedInUser = self.request.get('loggedInUser')
+      logout = self.request.get('logout')
       selectedCat = self.request.get('selectedCat')
       selectedItem = self.request.get('selectedItem')
       username = self.request.get('username')
@@ -105,7 +106,8 @@ class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to
         'previousComment1': newComment1,
         'previousComment2': newComment2,
         'selectedCat': selectedCat,
-        'author': username
+        'author': username,
+        'logout': logout
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/VotePage.html')

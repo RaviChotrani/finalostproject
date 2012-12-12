@@ -15,6 +15,7 @@ class NewAddedItem(webapp.RequestHandler):  #To show added item and option to ad
   def post(self):
       selectedCat = self.request.get('catName')
       loggedInUser = self.request.get('loggedInUser')
+      logout = self.request.get('logout')
       itemName = self.request.get('itemName')
       
       itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, loggedInUser)
@@ -37,7 +38,8 @@ class NewAddedItem(webapp.RequestHandler):  #To show added item and option to ad
       template_values = {
         'itemsForUser': itemsForUser,
         'selectedCat': selectedCat,
-        'loggedInUser': loggedInUser
+        'loggedInUser': loggedInUser,
+        'logout': logout
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/UserItems.html')

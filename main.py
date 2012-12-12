@@ -27,21 +27,35 @@ from ExportXML import ExportXML
 
 class Login(webapp.RequestHandler):
   def get(self):
-    self.response.out.write("""
-    <html>
-    <body>
-    <form action="/welcome" method="post">
-      Username: <input type="text" name="loggedInUser"><br>
-      <button type="submit" value="Login">Submit</button>
-      <button type="reset" value="Reset">Reset</button>
-    </form>
-    </body>
-    </html>""")
+      
+    if users.get_current_user():
+      url = users.create_logout_url(self.request.uri)
+      url_linktext = 'Logout'  
+      template_values = {
+          'loggedInUser': users.get_current_user(),
+          'url': url,
+          'url_linktext': url_linktext 
+      }
+
+      path = os.path.join(os.path.dirname(__file__), 'templates/Proceed.html')
+      self.response.out.write(template.render(path, template_values))
+      
+    else:
+      url = users.create_login_url(self.request.uri)
+      url_linktext = 'Login'
+   
+      template_values = {
+        'url': url,
+        'url_linktext': url_linktext
+      }
     
+      path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
+      self.response.out.write(template.render(path, template_values))
+
 class Welcome(webapp.RequestHandler):
   def post(self):
       loggedInUser = self.request.get('loggedInUser')
-      
+      logout = self.request.get('logout')
       #Small utility to clear records -- Uncomment only to clear records and then comment back
       '''
       q1 = db.GqlQuery("SELECT * FROM AllCategories")
@@ -73,6 +87,7 @@ class Welcome(webapp.RequestHandler):
       
       template_values = {
         'loggedInUser': loggedInUser,
+        'logout': logout
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')
@@ -80,14 +95,15 @@ class Welcome(webapp.RequestHandler):
 
 class WelcomeBack(webapp.RequestHandler):
   def get(self):
-      
       loggedInUser = ""
       loggeduser = db.GqlQuery("SELECT * FROM Loggeduser")
       for user in loggeduser:
           loggedInUser = user.loggedInUser
-          
+      
+      logout = users.create_login_url(self.request.uri)
       template_values = {
         'loggedInUser': loggedInUser,
+        'logout': logout
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')

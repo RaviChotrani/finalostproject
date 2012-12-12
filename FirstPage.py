@@ -13,12 +13,14 @@ from Models import *
 class FirstPage(webapp.RequestHandler):
   def post(self):
       initChoice = self.request.get('firstChoice')
-      loggedInUser = self.request.get('loggedInUser')  
+      loggedInUser = self.request.get('loggedInUser')
+      logout = self.request.get('logout')  
       if initChoice == "opt1":    # Vote on Existing Category
           allCategories = db.GqlQuery("SELECT * FROM AllCategories")
           template_values = {
             'allCategories': allCategories,
-            'loggedInUser': loggedInUser
+            'loggedInUser': loggedInUser,
+            'logout': logout
           }
 
           path = os.path.join(os.path.dirname(__file__), 'templates/AllCategs.html')
@@ -29,7 +31,8 @@ class FirstPage(webapp.RequestHandler):
          
          template_values = {
             'categsForUser': categsForUser,
-            'loggedInUser' : loggedInUser
+            'loggedInUser' : loggedInUser,
+            'logout': logout
          }
 
          path = os.path.join(os.path.dirname(__file__), 'templates/UserCategs.html')
@@ -53,7 +56,8 @@ class FirstPage(webapp.RequestHandler):
               
           template_values = {
              'categoryAdded' : "Y",
-             'loggedInUser' : loggedInUser
+             'loggedInUser' : loggedInUser,
+             'logout': logout
           }
 
           path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')
@@ -64,7 +68,8 @@ class FirstPage(webapp.RequestHandler):
           template_values = {
             'allCategories': allCategories,
             'opt4': "Y",
-            'loggedInUser' : loggedInUser
+            'loggedInUser' : loggedInUser,
+            'logout': logout
           }
 
           path = os.path.join(os.path.dirname(__file__), 'templates/AllCategs.html')
@@ -75,7 +80,8 @@ class FirstPage(webapp.RequestHandler):
           template_values = {
             'allCategories': allCategories,
             'opt5': "Y",
-            'loggedInUser' : loggedInUser
+            'loggedInUser' : loggedInUser,
+            'logout': logout
           }
 
           path = os.path.join(os.path.dirname(__file__), 'templates/AllCategs.html')
@@ -105,7 +111,8 @@ class FirstPage(webapp.RequestHandler):
              'loggedInUser' : loggedInUser,
              'resultListFound' : resultListFound,
              'searchElement': searchElement,
-             'count': count
+             'count': count,
+             'logout': logout
           }
 
           path = os.path.join(os.path.dirname(__file__), 'templates/SearchPage.html')

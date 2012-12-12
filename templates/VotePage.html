@@ -30,7 +30,7 @@
 	  </script>
   </head>
   <body onload="load('{{ previousComment1 }}','{{ previousComment2 }}')">
-  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <p align="left"><a href="{{ logout }}">Logout</a> </p>
   	   <br />
   	   <br />	
   	   Logged In User : <b> {{ loggedInUser }} !! </b>
@@ -97,6 +97,7 @@
 	       <br />
 	       <input type=hidden id="r" />
 	       <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
+	       <input type=hidden name=logout value="{{ logout }}" />
 		   <input type=hidden name=username value="{{ author }}" />
 		   <input type=hidden name=selectedCat value="{{ selectedCat }}" />
 		   <input type=hidden name=item1 value="{{ item1 }}" />

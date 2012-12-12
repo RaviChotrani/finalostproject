@@ -19,7 +19,7 @@
     </script>
   </head>
   <body>
-  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <p align="left"><a href="{{ logout }}">Logout</a> </p>
   	   <br />
   	   <br />
   		Logged In User : <b> {{ loggedInUser }} !! </b>
@@ -45,6 +45,7 @@
 		        <br />
     		{% endfor %}
     		<input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
+    		<input type=hidden name=logout value="{{ logout }}" />
 	       <div>
 		      <button type="submit" value="Login">Submit</button>
 		      <button type="reset" value="Reset">Reset</button>

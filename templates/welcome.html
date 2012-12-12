@@ -46,7 +46,7 @@
   </script>	  
   </head>
   <body>
-  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <p align="left"><a href="{{ logout }}">Logout</a> </p>
   	   <br />
   	   <br />	
 	   <form name="welcomeForm" action="/initChoice" onsubmit="return validate()" method="post">
@@ -127,6 +127,7 @@
 	       <br />
 		   <hr>
 		   <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
+		   <input type=hidden name=logout value="{{ logout }}" />
 		   <br />
 		   <br />
 	   </form>

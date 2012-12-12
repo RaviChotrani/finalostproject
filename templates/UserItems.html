@@ -14,7 +14,7 @@
 </script>
   </head>
   <body>
-  	   <p align="left"><a href="/">Logout</a> </p>
+  	   <p align="left"><a href="{{ logout }}">Logout</a> </p>
   	   <br />
   	   <br />
   	   Logged In User : <b> {{ loggedInUser }} !! </b>	
@@ -31,6 +31,7 @@
     	  <br />
     	  <input type=hidden name=catName value="{{ selectedCat }}" />
     	  <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
+    	  <input type=hidden name=logout value="{{ logout }}" />
     	  <br />
 	       <div>
 		      <button type="submit" value="Login">Submit</button>

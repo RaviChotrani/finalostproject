@@ -15,12 +15,14 @@ class AllItemsForUser(webapp.RequestHandler):  # Edit Existing Category : i.e; T
   def post(self):
       selectedCat = self.request.get('catName')
       loggedInUser = self.request.get('loggedInUser')
+      logout = self.request.get('logout')
       itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, loggedInUser)
       
       template_values = {
         'itemsForUser': itemsForUser,
         'selectedCat': selectedCat,
-        'loggedInUser': loggedInUser
+        'loggedInUser': loggedInUser,
+        'logout': logout
       }
 
       path = os.path.join(os.path.dirname(__file__), 'templates/UserItems.html')
