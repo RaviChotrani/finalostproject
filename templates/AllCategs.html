@@ -39,9 +39,9 @@
   	   	  <p>Please select one of the following categories:</p>
   	   	    <input type=hidden id="r" />	
 	   		{% for eachCategory in allCategories %}
-	        	<input type=radio id="r" name=catName value="{{ eachCategory.categoryName }}" /> {{ eachCategory.categoryName }} (Owned By : {{ eachCategory.author }})
+	        	<input type=radio id="r" name=catName value="{{ eachCategory.categoryName }},{{ eachCategory.author }}" /> 
+	        			{{ eachCategory.categoryName }} (Owned By : {{ eachCategory.author }})
 		        <br />
-		        <input type=hidden name=username value="{{ eachCategory.author }}" />
 		        <br />
     		{% endfor %}
     		<input type=hidden name=loggedInUser value="{{ loggedInUser }}" />

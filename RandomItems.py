@@ -15,9 +15,13 @@ class RandomItems(webapp.RequestHandler):
   def post(self):
       loggedInUser = self.request.get('loggedInUser')
       logout = self.request.get('logout')
-      selectedCat = self.request.get('catName')
-      username = self.request.get('username')
+      catAndUser = self.request.get('catName')
+      x = catAndUser.split(',')
+      selectedCat = x[0].strip()
+      username = x[1].strip()
+      
       itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, username)
+      
       count = itemsForUser.count()
       error_msg = ""
       if count < 2:

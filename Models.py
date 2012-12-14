@@ -33,4 +33,5 @@ class AllComments(db.Model):
   
 class Loggeduser(db.Model):
   loggedInUser = db.StringProperty()
+  logout = db.StringProperty()
   

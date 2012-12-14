@@ -1,24 +1,14 @@
 <html>
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-    <script>
-	function validateForm()
-	{
-	var x=document.forms["userItemForm"]["itemName"].value;
-	if (x==null || x=="")
-	  {
-	  alert("Item field is mandatory");
-	  return false;
-	  }
-	}
-</script>
+
   </head>
   <body>
   	   <p align="left"><a href="{{ logout }}">Logout</a> </p>
   	   <br />
   	   <br />
   	   Logged In User : <b> {{ loggedInUser }} !! </b>	
-	   <form name="userItemForm" action="/newAddedItem" onsubmit="return validateForm()" method="post">
+	   <form enctype="multipart/form-data" name="userItemForm" action="/newAddedItem" method="post">
   	   	  <p>Following Items are existing in the category : {{ selectedCat }}. </p>	
 	   		<ul>
 	   		{% for items in itemsForUser %}
@@ -32,6 +22,8 @@
     	  <input type=hidden name=catName value="{{ selectedCat }}" />
     	  <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
     	  <input type=hidden name=logout value="{{ logout }}" />
+    	  <br />
+    	  Upload XML File:<input type="file" name="file" size="30">
     	  <br />
 	       <div>
 		      <button type="submit" value="Login">Submit</button>

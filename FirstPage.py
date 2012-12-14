@@ -96,12 +96,12 @@ class FirstPage(webapp.RequestHandler):
           for eachItem in allItems:
               resultStr = ""
               if searchElement in eachItem.itemName:
-                 resultStr = "Matching Item name: "+ eachItem.itemName+" found in "+eachItem.categoryName+" owned by "+eachItem.author
+                 resultStr = "Matching Item name: "+ eachItem.itemName+", found in Category:"+eachItem.categoryName+", owned by "+eachItem.author
                  resultListFound.append(resultStr)
                  count += 1
               else:
                   if searchElement in eachItem.categoryName:
-                      resultStr = "Matching Category name: "+eachItem.categoryName+" owned by "+eachItem.author
+                      resultStr = "Matching Category name: "+eachItem.categoryName+", owned by "+eachItem.author
                       resultListFound.append(resultStr)
                       count += 1
 

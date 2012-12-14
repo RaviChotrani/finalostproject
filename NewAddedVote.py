@@ -63,9 +63,7 @@ class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to
       itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, username)
       count = itemsForUser.count()
       error_msg = ""
-      if count < 2:
-          error_msg = "Y"
-      elif count == 2:
+      if count == 2:
           i = 0
           j = 1
       else:        

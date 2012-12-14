@@ -13,7 +13,7 @@ from Models import *
 from FirstPage import FirstPage
 from RandomItems import RandomItems
 from AllItemsForUser import AllItemsForUser
-from NewAddedItem import NewAddedItem
+from NewAddedItem import *
 from NewAddedVote import NewAddedVote
 from ResultsPage import ResultsPage
 from ExportXML import ExportXML
@@ -27,7 +27,11 @@ from ExportXML import ExportXML
 
 class Login(webapp.RequestHandler):
   def get(self):
-      
+    
+    q6 = db.GqlQuery("SELECT * FROM Loggeduser")
+    results6 = q6.fetch(100)
+    db.delete(results6)  
+    
     if users.get_current_user():
       url = users.create_logout_url(self.request.uri)
       url_linktext = 'Logout'  
@@ -36,7 +40,6 @@ class Login(webapp.RequestHandler):
           'url': url,
           'url_linktext': url_linktext 
       }
-
       path = os.path.join(os.path.dirname(__file__), 'templates/Proceed.html')
       self.response.out.write(template.render(path, template_values))
       
@@ -83,6 +86,7 @@ class Welcome(webapp.RequestHandler):
       
       loggeduser = Loggeduser()
       loggeduser.loggedInUser = loggedInUser
+      loggeduser.logout = logout
       loggeduser.put()
       
       template_values = {
@@ -95,12 +99,16 @@ class Welcome(webapp.RequestHandler):
 
 class WelcomeBack(webapp.RequestHandler):
   def get(self):
+      q4 = db.GqlQuery("SELECT * FROM AllResults")
+      results4 = q4.fetch(1000)
+      db.delete(results4)
+          
       loggedInUser = ""
       loggeduser = db.GqlQuery("SELECT * FROM Loggeduser")
       for user in loggeduser:
           loggedInUser = user.loggedInUser
+          logout = user.logout
       
-      logout = users.create_login_url(self.request.uri)
       template_values = {
         'loggedInUser': loggedInUser,
         'logout': logout
@@ -120,6 +128,8 @@ application = webapp.WSGIApplication(
                                       ('/newAddedItem', NewAddedItem),
                                       ('/newAddedVote', NewAddedVote),
                                       ('/resultsPage', ResultsPage),
+                                      ('/upload', UploadHandler),
+                                      ('/serve/([^/]+)?', ServeHandler),
                                       ('/exportXML', ExportXML)],
                                      debug=True)
 

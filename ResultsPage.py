@@ -15,9 +15,11 @@ class ResultsPage(webapp.RequestHandler):  #View Results on a given category
   def post(self):
       loggedInUser = self.request.get('loggedInUser')
       logout = self.request.get('logout')
-      categoryName = self.request.get('catName')
-      username = self.request.get('username')
-      
+      catAndUser = self.request.get('catName')
+      x = catAndUser.split(',')
+      categoryName = x[0].strip()
+      username = x[1].strip()
+
       itemsofCateg = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", categoryName, username)
       votesofCateg = db.GqlQuery("SELECT * FROM AllVotes WHERE categoryName = :1 AND author = :2", categoryName, username)
       
