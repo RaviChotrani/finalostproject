@@ -17,6 +17,7 @@ from NewAddedItem import *
 from NewAddedVote import NewAddedVote
 from ResultsPage import ResultsPage
 from ExportXML import ExportXML
+from ImportXML import ImportXML
 from xml.etree.ElementTree import Element, SubElement, tostring, XML, fromstring
 import xml.etree.ElementTree as ET
 from cStringIO import StringIO
@@ -33,21 +34,6 @@ import re
       #self.response.out.write(username)
       #self.response.out.write('Hello')
 
-def is_present(self, user_name, category_name):
-    categories = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", category_name, user_name)
-
-    for category in categories:
-        if category.categoryName.upper() == category_name.upper():
-            return True
-
-    return False
-
-def createNewItem(item_name, category_name, user_name):
-    item_new = AllItems(categoryName=category_name,author=user_name,itemName=item_name)
-    item_new.itemName = item_name
-    item_new.put()
-    
-    
 class Login(webapp.RequestHandler):
   def get(self):
     
@@ -143,42 +129,6 @@ class WelcomeBack(webapp.RequestHandler):
       path = os.path.join(os.path.dirname(__file__), 'templates/welcome.html')
       self.response.out.write(template.render(path, template_values))
       
-class ImportXML(webapp.RequestHandler):  #Export XML For a given Category
-  def post(self):
-        user_name = self.request.get('loggedInUser')
-        x = self.request.POST.multi['imported_file'].file.read()
-
-        # check whether the xml file is a valid one and according to the desired format and tag names
-        dom = xml.dom.minidom.parseString(x)
-
-        # parse xml file        
-        root = fromstring(x)                        
-        categoryName = root.findall('NAME')
-        
-        categoryName = categoryName[0].text
-        #self.response.out.write("<br/>category = " + categoryName)
-        
-        # check whether the category with the same name is already present
-        if is_present(self, user_name, categoryName) == False:
-            # create a new category with new name
-            category_new = AllCategories(categoryName=categoryName,author=user_name)
-            category_new.author = user_name
-            category_new.categoryName = categoryName
-            category_new.put()
-
-            # add items in the newly created category
-            for child in root:
-                if child.tag == "ITEM":
-                    childName = child.findall('NAME')
-                    createNewItem(item_name=childName[0].text, category_name=category_new.categoryName, user_name=category_new.author)
-                                            
-        template_values = {
-          'loggedInUser':user_name                 
-        }                           
-        
-        path = os.path.join(os.path.dirname(__file__), 'templates/ImportXML.html')
-        self.response.out.write(template.render(path, template_values))
-        
 # Main Procedure for calling the appropriate class            
 application = webapp.WSGIApplication(
                                      [('/', Login),

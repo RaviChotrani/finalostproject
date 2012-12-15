@@ -16,14 +16,15 @@ from Models import *
 
 class ExportXML(webapp.RequestHandler):  #Export XML For a given Category
   def post(self):
+        
         loggedInUser = self.request.get('loggedInUser')
+        logout = self.request.get('logout')
         catAndUser = self.request.get('catName')
         x = catAndUser.split(',')
         selectedCat = x[0].strip()
         username = x[1].strip()
-        username = self.request.get('username')
       
-        itemsofCateg = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 ", selectedCat)
+        itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, username)
         
         self.response.headers['Content-Type'] = 'text/xml'
         
@@ -31,8 +32,8 @@ class ExportXML(webapp.RequestHandler):  #Export XML For a given Category
         self.response.headers['Content-Disposition'] = "attachment; filename="+str(file_name)+ ".xml"
         root = Element('CATEGORY')
         categoryName = SubElement(root, 'NAME')
-        categoryName.text = categoryName
-        for item in itemsofCateg:
+        categoryName.text = selectedCat
+        for item in itemsForUser:
             itemTag = SubElement(root, 'ITEM')
             itemNameTag = SubElement(itemTag, 'NAME')
             itemNameTag.text = item.itemName

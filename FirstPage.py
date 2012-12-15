@@ -117,6 +117,8 @@ class FirstPage(webapp.RequestHandler):
           self.response.out.write(template.render(path, template_values))       
  
       if initChoice == "opt7":    # import XML
+          loggedInUser = self.request.get('loggedInUser')
+          logout = self.request.get('logout')
           template_values = {
             'loggedInUser' : loggedInUser,
             'logout': logout
