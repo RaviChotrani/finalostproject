@@ -33,15 +33,20 @@
 	     {% else %}
 	     	<form name="allCategsForm" action="/randomItems" onsubmit="return validate()" method="post">
 	     {% endif %}
+	     {% if vote_page %}
+	     	{% if categ_expired %}
+	     		<h4>The selected category is expired at {{ expHH }} {{ expMM }} {{ expSS }}. Please select another category</h4>
+	     	{% endif %}
+	     {% endif %}	
 	     {% if error_msg %}
 	     	<h4>The selected category has less than 2 Items.</h4>
 	     {% endif %}		
   	   	  <p>Please select one of the following categories:</p>
   	   	    <input type=hidden id="r" />	
-	   		{% for eachCategory in allCategories %}
-	        	<input type=radio id="r" name=catName value="{{ eachCategory.categoryName }},{{ eachCategory.author }}" /> 
-	        			{{ eachCategory.categoryName }} (Owned By : {{ eachCategory.author }})
-		        <br />
+	   		{% for eachCategory in allCategories %}	
+        		<input type=radio id="r" name=catName value="{{ eachCategory.categoryName }},{{ eachCategory.author }}" /> 
+        			{{ eachCategory.categoryName }} (Owned By : {{ eachCategory.author }})
+	        	<br />
 		        <br />
     		{% endfor %}
     		<input type=hidden name=loggedInUser value="{{ loggedInUser }}" />

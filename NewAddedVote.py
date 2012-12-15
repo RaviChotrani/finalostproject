@@ -24,21 +24,26 @@ class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to
       previousComment2 = self.request.get('previousComment2')
       appendComment1 = self.request.get('appendComment1')
       appendComment2 = self.request.get('appendComment2')
+      btnClicked = self.request.get('btn')
       
-      newVote = AllVotes()
-      newVote.categoryName = self.request.get('selectedCat')
-      newVote.author = self.request.get('username')
-      if selectedItem == previousitem1:
-          newVote.winner = selectedItem
-          newVote.loser = previousitem2
-          newVote.put()
-      elif selectedItem == previousitem2:
-          newVote.winner = selectedItem
-          newVote.loser = previousitem1
-          newVote.put()
-      else:
-          # Do Nothing
-          selectedItem = ""         
+      vote_cast = ""
+      if btnClicked != "skip":
+          newVote = AllVotes()
+          newVote.categoryName = self.request.get('selectedCat')
+          newVote.author = self.request.get('username')
+          if selectedItem == previousitem1:
+              vote_cast = "Y"
+              newVote.winner = selectedItem
+              newVote.loser = previousitem2
+              newVote.put()
+          elif selectedItem == previousitem2:
+              vote_cast = "Y"
+              newVote.winner = selectedItem
+              newVote.loser = previousitem1
+              newVote.put()
+          else:
+              # Do Nothing
+              selectedItem = ""         
       
       if previousComment1 != None: 
           if previousComment1 != "":
@@ -96,7 +101,7 @@ class NewAddedVote(webapp.RequestHandler):  #To update Vote casted and option to
               newComment2 = comments.itemComment
                          
       template_values = {
-        'vote_cast': "Y",
+        'vote_cast': vote_cast,
         'loggedInUser': loggedInUser,
         'selectedItem': selectedItem,
         'item1': item1,

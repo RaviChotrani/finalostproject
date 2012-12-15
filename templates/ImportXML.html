@@ -1,0 +1,14 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+			<form method="post" action="/importXML" enctype="multipart/form-data">				
+				<input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
+				<input type="file" name="imported_file" />
+				<input type="hidden" name="task_name" value="import_category" /> <br/> <br/>
+				<input type="submit" value="Import" />
+			</form>
+</body>
+</html>

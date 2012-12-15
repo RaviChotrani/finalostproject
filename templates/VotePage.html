@@ -37,7 +37,7 @@
   	   <br />
   	   <br />
   	   <br />	
-	   <form name="voteForm" action="/newAddedVote" onsubmit="return validate()" method="post">
+	   <form name="voteForm" action="/newAddedVote" method="post">
 	       {% if vote_cast %}
 	       		You Voted on {{ selectedItem }}
 	     	 	<hr>
@@ -86,10 +86,10 @@
 	       	 	<td>
 	       	    </td>
 	       	 	<td>
-			      <p align="center"><button type="submit" value="Login">Submit</button>&nbsp;</p>
+			      <p align="center"><button type="submit" name="btn" onclick="return validate()" value="submit">Submit</button>&nbsp;</p>
 	       	   </td>
 	       	   <td>
-			      <p align="left"><button type="reset" value="Reset">Reset</button></p>
+			      <p align="left"><button type="submit" name="btn" value="skip">Skip</button></p>
 	       	   </td>
 	       	 </tr>
 	       </table>

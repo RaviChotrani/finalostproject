@@ -1,21 +1,37 @@
 <html>
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-
+	<script>
+		function validateForm() {
+		   var x=document.forms["userItemForm"]["itemName"].value;
+		   retval = false;
+		   for (var i=0; i < document.userItemForm.ck.length; i++) {
+	           if (document.userItemForm.ck[i].checked) {
+	             retval = true;
+	             break;
+	           }
+		   }
+		   if((retval == false) && (x==null || x=="")) {
+		      alert("Must select an Item to Delete or Add new Item to the category");
+		      return false;
+		   }
+		}   
+	</script>
   </head>
   <body>
   	   <p align="left"><a href="{{ logout }}">Logout</a> </p>
   	   <br />
   	   <br />
   	   Logged In User : <b> {{ loggedInUser }} !! </b>	
-	   <form enctype="multipart/form-data" name="userItemForm" action="/newAddedItem" method="post">
-  	   	  <p>Following Items are existing in the category : {{ selectedCat }}. </p>	
-	   		<ul>
+	   <form enctype="multipart/form-data" name="userItemForm" onsubmit="return validateForm()" action="/newAddedItem" method="post">
+  	   	  <p>Following Items are existing in the category : {{ selectedCat }}. </p>
+  	   	  <p>Select Items to Delete:</p>
+  	   	  	<br />
+  	   	  	<input type=hidden id="ck" />
 	   		{% for items in itemsForUser %}
-	        	 <li> {{ items.itemName }} </li> 
+	   			<input id="ck" type="checkbox" name="deletedItems" value="{{ items.itemName }}"  />{{ items.itemName }}
 	        	 <br />
     		{% endfor %}
-    		</ul>
     		<hr>
     	  <div id=itemName >Add new Item here : <input type=text name=itemName > </div>
     	  <br />
@@ -23,7 +39,6 @@
     	  <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
     	  <input type=hidden name=logout value="{{ logout }}" />
     	  <br />
-    	  Upload XML File:<input type="file" name="file" size="30">
     	  <br />
 	       <div>
 		      <button type="submit" value="Login">Submit</button>

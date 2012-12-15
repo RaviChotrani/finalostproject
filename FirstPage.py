@@ -20,7 +20,7 @@ class FirstPage(webapp.RequestHandler):
           template_values = {
             'allCategories': allCategories,
             'loggedInUser': loggedInUser,
-            'logout': logout
+            'logout': logout,
           }
 
           path = os.path.join(os.path.dirname(__file__), 'templates/AllCategs.html')
@@ -105,8 +105,6 @@ class FirstPage(webapp.RequestHandler):
                       resultListFound.append(resultStr)
                       count += 1
 
-           
-          
           template_values = {
              'loggedInUser' : loggedInUser,
              'resultListFound' : resultListFound,
@@ -118,3 +116,11 @@ class FirstPage(webapp.RequestHandler):
           path = os.path.join(os.path.dirname(__file__), 'templates/SearchPage.html')
           self.response.out.write(template.render(path, template_values))       
  
+      if initChoice == "opt7":    # import XML
+          template_values = {
+            'loggedInUser' : loggedInUser,
+            'logout': logout
+          }
+
+          path = os.path.join(os.path.dirname(__file__), 'templates/ImportXML.html')
+          self.response.out.write(template.render(path, template_values))    

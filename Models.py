@@ -34,4 +34,10 @@ class AllComments(db.Model):
 class Loggeduser(db.Model):
   loggedInUser = db.StringProperty()
   logout = db.StringProperty()
-  
+
+class ExpirationTime(db.Model):
+    loggedInUser = db.StringProperty()
+    categoryName = db.StringProperty()
+    expHH = db.StringProperty()
+    expMM = db.StringProperty()
+    expSS = db.StringProperty()  

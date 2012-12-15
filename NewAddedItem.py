@@ -22,37 +22,50 @@ class NewAddedItem(webapp.RequestHandler):  #To show added item and option to ad
       loggedInUser = self.request.get('loggedInUser')
       logout = self.request.get('logout')
       itemName = self.request.get('itemName')
+      deletedItems = self.request.get_all('deletedItems')
+      
+      if deletedItems:
+          for item in deletedItems:
+              deleteFromAllItems = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2 AND itemName = :3", 
+                                     selectedCat, loggedInUser, item)
+              results = deleteFromAllItems.fetch(100)
+              db.delete(results)
+          
+          for item in deletedItems:
+              deleteFromAllComments = db.GqlQuery("SELECT * FROM AllComments WHERE categoryName = :1 AND itemName = :2", 
+                                     selectedCat, item)
+              results = deleteFromAllComments.fetch(100)
+              db.delete(results)
+          
+          for item in deletedItems:
+              deleteFromAllWinners =  db.GqlQuery("SELECT * FROM AllVotes WHERE categoryName = :1 AND winner = :2", 
+                                     selectedCat, item)
+              results = deleteFromAllWinners.fetch(100)
+              db.delete(results)
+              
+          for item in deletedItems:
+              deleteFromAllLosers =  db.GqlQuery("SELECT * FROM AllVotes WHERE categoryName = :1 AND loser = :2", 
+                                     selectedCat, item)
+              results = deleteFromAllLosers.fetch(100)
+              db.delete(results)   
+      
+      if itemName:       
+          itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", 
+                                     selectedCat, loggedInUser)
+          
+          isItemPresent = "F"
+          for itemInfo in itemsForUser:
+             if itemName == itemInfo.itemName:
+                isItemPresent = "T"
+                break
+                   
+          if isItemPresent == "F":     
+              newItem = AllItems()
+              newItem.categoryName = selectedCat
+              newItem.author = loggedInUser
+              newItem.itemName = itemName
+              newItem.put()
 
-      #upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
-      #blob_info = upload_files[0]
-      #upload_url = '/serve/%s' % blob_info.key()
-            
-      upload_url = blobstore.create_upload_url('/upload')
-      #self.response.out.write('hii')
-      #self.response.out.write(upload_url)
-      #self.response.out.write('hello')
-      #file = urllib.urlopen("http://localhost:8092/serve/gN185wjQVgbRdix5gYeDtA==")
-      #data = file.read()
-      #file.close()
-      #self.response.out.write(data)
-      #self.response.out.write('hello')
-      #dom = parseString(data)
-      
-      
-      itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", selectedCat, loggedInUser)
-      isItemPresent = "F"
-      for itemInfo in itemsForUser:
-         if itemName == itemInfo.itemName:
-            isItemPresent = "T"
-            break
-               
-      if isItemPresent == "F":     
-          newItem = AllItems()
-          newItem.categoryName = selectedCat
-          newItem.author = loggedInUser
-          newItem.itemName = itemName
-          newItem.put()
-      
       itemsForUser = db.GqlQuery("SELECT * FROM AllItems WHERE categoryName = :1 AND author = :2", 
                                  selectedCat, loggedInUser)
       

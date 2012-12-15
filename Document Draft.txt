@@ -19,3 +19,8 @@ Following advanced features are implemented in the project:
 
 ---> This search searches for all Item names containing the search keyword. If not found, the search engine will search for any matching category names containing the search keyword. The search is case-sensitive.
 
+If I delete an item from Votes table, lets say it is a winner..
+then I will have to take out corresponding loser as well... rite..
+or vice versa..
+So accordingly , loss count of that item(or win count) will decrease for that item, even though it was untouched by the user...
+is this correct?

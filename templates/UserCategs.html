@@ -2,9 +2,62 @@
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
     <script type="text/javascript">
+	  function toggle_visibility(id1) {
+		  alert("hi")		  
+		  if ((id1 == 'show')) {
+			  alert('f')
+		    document.getElementById('expTime').style.visibility='visible';
+		  }  
+		  else {
+			  alert('s')
+			  document.getElementById('expTime').style.visibility='hidden';
+		  }
+	  }
+
 	    function validate()
 		  {
-		    var retval = false;
+		    var timecheck = false;
+	    	var retval = false;
+		    var hh = document.forms["userCategsForm"]["expTimeHH"].value;
+		    var mm = document.forms["userCategsForm"]["expTimeMM"].value;
+		    var ss = document.forms["userCategsForm"]["expTimeSS"].value;
+		    
+		    if(hh == null || hh == "") {
+		    	document.forms["userCategsForm"]["expTimeHH"].value = "0";
+			    timecheck = true;
+		    }
+		    else if (hh > 11) {
+		    	timecheck = false;
+		    	alert('Expiration Hour cannot be greater than 12')
+		    	return timecheck;
+		    }
+		    else {
+		    	timecheck = true;
+		    }
+		    if(mm == null || mm == "") {
+		    	document.forms["userCategsForm"]["expTimeMM"].value = "0";
+		    	timecheck = true;
+		    }
+		    else if (mm > 59) {
+		    	timecheck = false;
+		    	alert('Expiration Minutes cannot be greater than 59')
+		    	return timecheck;
+		    }
+		    else {
+		    	timecheck = true;
+		    }
+		    if(ss == null || ss == "") {
+		    	document.forms["userCategsForm"]["expTimeSS"].value = "0";
+		    	timecheck = true;		    	
+		    }
+		    else if (ss > 59) {
+		    	timecheck = false;
+		    	alert('Expiration Seconds cannot be greater than 59')
+		    	return timecheck;
+		    }
+		    else {
+		    	timecheck = true;
+		    }
 		    for (var i=0; i < document.userCategsForm.r.length; i++)
 		    {
 		      if (document.userCategsForm.r[i].checked)
@@ -12,8 +65,8 @@
 		        retval = true;
 		        return retval;
 		      }
-		    }  
-			alert('Select one of the options in order to proceed')
+		    }
+		    alert('Select one of the options in order to proceed')
 		    return retval;
 		  }
     </script>
@@ -27,12 +80,26 @@
   	   	<br />
   	   	<br />
 	   <form name="userCategsForm" action="/allItemsForUser" onsubmit="return validate()" method="post">
-  	   	  <p>Categories Owned by you are as follows. Please choose one to edit:</p>	
+  	   	  <p>Categories Owned by you are as follows. Please choose one to edit:</p>
 	   		{% for category in categsForUser %}
 	        	<input type=radio id="r" name=catName value="{{ category.categoryName }}" /> {{ category.categoryName }}
-		        <br />
-		        <br />
+	        	<br />
     		{% endfor %}
+    			<br />
+    			<table>
+    			  <tr>
+    			  	<td>Allot Expiration Time for selected category:</td>
+    			  	<td>
+    			  		<input type=text name=expTimeHH size="2" >:
+    			  		<input type=text name=expTimeMM size="2" >:
+    			  		<input type=text name=expTimeSS size="2" >
+    			  	</td>
+    			  </tr>
+    			  <tr>
+    			  	<td>(optional)</td>
+    			  	<td align="center">(HH:MM:SS)</td>
+    			  </tr>
+    			</table>
 		        <input type=hidden name=loggedInUser value="{{ loggedInUser }}" />
 		        <input type=hidden name=logout value="{{ logout }}" />
 		        <input type=hidden id="r" />
