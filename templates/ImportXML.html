@@ -1,12 +1,26 @@
 <html>
 <head>
+	<script type="text/javascript">
+	  function validate()
+	  {
+	    var retval = false;
+	    var x=document.forms["importXMLForm"]["imported_file"].value;
+	    if(x==null || x=="") {
+	       retval = false;
+	       alert('Choose a XML file to proceed')
+	       return retval;
+	    }
+	    retval = true;
+	    return retval;
+	  }
+  </script>
 </head>
 <body>
     <p align="left"><a href="{{ logout }}">Logout</a> </p>
   	<br />
   	Logged In User : <b> {{ loggedInUser }} !! </b>
   	<br />
-  	<form name="importXMLForm" enctype="multipart/form-data" action="/importXML" method="post">
+  	<form name="importXMLForm" enctype="multipart/form-data" action="/importXML" onsubmit="return validate()" method="post">
 	  	{% if import_success %}
 		     	<h4>Your XML is imported successfully.</h4>
 		{% endif %}
